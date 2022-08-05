@@ -30,6 +30,9 @@ const initMap = () => {
   
   map = L.map("map", config);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  L.control.scale({
+    imperial: false,
+  }).addTo(map);
   return map
 }
 
