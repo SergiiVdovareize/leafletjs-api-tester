@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "lint:fix": "eslint --cache webapp/index.js --fix",
+    "lint": "eslint --cache webapp/index.js"
+  },
+  "dependencies": {
+    "eslint": "^8.0.1",
+    "phantomjs": "^2.1.7"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0"
+  }
+}
