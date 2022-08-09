@@ -32,6 +32,6 @@ page.open(url, function (status) {
           console.log('do render');
           page.render('image.png');
           phantom.exit();
-      }, 1000); // Change timeout as required to allow sufficient time 
+      }, 100); // Change timeout as required to allow sufficient time 
   }
 });
