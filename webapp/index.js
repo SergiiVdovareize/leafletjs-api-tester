@@ -1,4 +1,5 @@
-/* global L */
+﻿/* global L */
+
 (function () {
   const PADDING = 50;
   const defaultZoom = 15;
