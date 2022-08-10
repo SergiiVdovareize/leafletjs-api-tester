@@ -10,7 +10,9 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-    semi: [2, 'always']
+    semi: [2, 'always'],
+    'no-var': 'off',
+    'object-shorthand': 'off'
   },
   ignorePatterns: [
     'webapp/leaflet/'

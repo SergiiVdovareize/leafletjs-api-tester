@@ -4,7 +4,7 @@
   const PADDING = 50;
   const defaultZoom = 15;
 
-  function parsedParam (stringParams, paramName, isCoordinate) {
+  function parseParam (stringParams, paramName, isCoordinate) {
     if (!stringParams) {
       return null;
     }
@@ -34,11 +34,11 @@
 
     return {
       points: {
-        target: parsedParam(stringParams, 'target', true),
-        position: parsedParam(stringParams, 'position', true),
-        pilot: parsedParam(stringParams, 'pilot', true)
+        target: parseParam(stringParams, 'target', true),
+        position: parseParam(stringParams, 'position', true),
+        pilot: parseParam(stringParams, 'pilot', true)
       },
-      zoom: parsedParam(stringParams, 'zoom', false)
+      zoom: parseParam(stringParams, 'zoom', false)
     };
   };
 
@@ -46,10 +46,12 @@
     const config = {};
 
     const map = L.map('map', config);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.control.scale({
       imperial: false
     }).addTo(map);
+
     return map;
   };
 
@@ -152,6 +154,7 @@
 
     legend.addTo(map);
 
+    // render Ukraine
     map.setView([49.264822, 32.787117], 7);
   };
 
@@ -170,7 +173,6 @@
 
   window.onload = function (event) {
     const params = getParams();
-    console.log(params);
     renderMap(params);
   };
 })();

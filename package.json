@@ -1,4 +1,6 @@
 {
+  "name": "map-renderer",
+  "license": "MIT",
   "scripts": {
     "lint:fix": "eslint --cache *.js --fix",
     "lint": "eslint --cache *.js"
