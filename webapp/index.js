@@ -1,9 +1,8 @@
-(function() {
+﻿(function() {
   const PADDING = 50;
   const defaultZoom = 15;
 
-  function getParamCoordinates(stringParams, paramName) {
-    console.log(stringParams)
+  function parsedParam(stringParams, paramName, isCoordinate) {
     if (!stringParams) {
       return null;
     }
@@ -12,6 +11,9 @@
       const param = stringParams[key]
       if (param.indexOf(paramName + '=') === 0) {
         const value = param.split('=')[1]
+        if (!isCoordinate) {
+          return value
+        }
         return areCoordinatesValid(value) ? value.split(',') : null;
       }
     }
@@ -29,10 +31,11 @@
 
     return {
       points: {
-        target: getParamCoordinates(stringParams, 'target'),
-        position: getParamCoordinates(stringParams, 'position'),
-        pilot: getParamCoordinates(stringParams, 'pilot')
-      }
+        target: parsedParam(stringParams, 'target', true),
+        position: parsedParam(stringParams, 'position', true),
+        pilot: parsedParam(stringParams, 'pilot', true)
+      },
+      zoom: parsedParam(stringParams, 'zoom', false)
     };
   };
 
@@ -111,12 +114,14 @@
     });
   };
 
-  function fitBounds(map, featureGroups) {
+  function fitBounds(map, featureGroups, parsedZoom) {
     const group = new L.featureGroup(featureGroups);
     map.fitBounds(group.getBounds(), {
       padding: [PADDING, PADDING]
     });
-    map.setZoom(defaultZoom);
+
+    const zoom = (!isNaN(parsedZoom) && parsedZoom > 0) ? parsedZoom : defaultZoom
+    map.setZoom(zoom);
   };
 
   function renderNoDataMap(map) {
@@ -153,7 +158,7 @@
 
     if (featureGroups.length > 0) {
       addFeatureGroupsToMap(map, featureGroups);
-      fitBounds(map, featureGroups);
+      fitBounds(map, featureGroups, params.zoom);
     } else {
       renderNoDataMap(map);
     }
@@ -161,6 +166,7 @@
 
   window.onload = function(event) {
     const params = getParams()
+    console.log(params)
     renderMap(params)
   };
 })();
