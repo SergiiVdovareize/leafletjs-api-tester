@@ -1,33 +1,35 @@
-﻿(function() {
+/* global L */
+(function () {
   const PADDING = 50;
   const defaultZoom = 15;
 
-  function parsedParam(stringParams, paramName, isCoordinate) {
+  function parsedParam (stringParams, paramName, isCoordinate) {
     if (!stringParams) {
       return null;
     }
-    
-    for (key in stringParams) {
-      const param = stringParams[key]
+
+    for (const key in stringParams) {
+      const param = stringParams[key];
       if (param.indexOf(paramName + '=') === 0) {
-        const value = param.split('=')[1]
+        const value = param.split('=')[1];
         if (!isCoordinate) {
-          return value
+          return value;
         }
         return areCoordinatesValid(value) ? value.split(',') : null;
       }
     }
-    return null
+    return null;
   };
 
-  function areCoordinatesValid(str) {
+  function areCoordinatesValid (str) {
+    // eslint-disable-next-line no-useless-escape
     const regexExp = /^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/gi;
     return regexExp.test(str);
   };
 
-  function getParams() {
-    const query = window.location.search.substring(1)
-    const stringParams = query.split('&')
+  function getParams () {
+    const query = window.location.search.substring(1);
+    const stringParams = query.split('&');
 
     return {
       points: {
@@ -39,10 +41,10 @@
     };
   };
 
-  function initMap() {
+  function initMap () {
     const config = {};
 
-    map = L.map('map', config);
+    const map = L.map('map', config);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.control.scale({
       imperial: false
@@ -50,7 +52,7 @@
     return map;
   };
 
-  function prepareMarkerIcon(object) {
+  function prepareMarkerIcon (object) {
     const objectColor = {
       target: 'red',
       position: 'green',
@@ -75,16 +77,16 @@
     return icon;
   };
 
-  function prepareFeatureGroups(points) {
+  function prepareFeatureGroups (points) {
     const featureGroups = Object.keys(points)
-      .filter(function(key) { 
-        return !!points[key]
+      .filter(function (key) {
+        return !!points[key];
       })
-      .map(function(key) {
+      .map(function (key) {
         const point = points[key];
         const lat = point[0];
         const lng = point[1];
-        
+
         const title = key + '<br/>' + lat + ', ' + lng;
         const marker = L.marker([lat, lng], {
           icon: prepareMarkerIcon(key)
@@ -108,39 +110,40 @@
     return featureGroups;
   };
 
-  function addFeatureGroupsToMap(map, featureGroups) {
-    featureGroups.forEach(function(group) {
+  function addFeatureGroupsToMap (map, featureGroups) {
+    featureGroups.forEach(function (group) {
       group.addTo(map);
     });
   };
 
-  function fitBounds(map, featureGroups, parsedZoom) {
+  function fitBounds (map, featureGroups, parsedZoom) {
+    // eslint-disable-next-line new-cap
     const group = new L.featureGroup(featureGroups);
     map.fitBounds(group.getBounds(), {
       padding: [PADDING, PADDING]
     });
 
-    const zoom = (!isNaN(parsedZoom) && parsedZoom > 0) ? parsedZoom : defaultZoom
+    const zoom = (!isNaN(parsedZoom) && parsedZoom > 0) ? parsedZoom : defaultZoom;
     map.setZoom(zoom);
   };
 
-  function renderNoDataMap(map) {
+  function renderNoDataMap (map) {
     const legend = L.control({ position: 'bottomleft' });
 
     legend.onAdd = function () {
       const div = L.DomUtil.create('div', 'no-data-description');
       L.DomEvent.disableClickPropagation(div);
-      const text = "<h4>Недостатньо даних</h4>" +
+      const text = '<h4>Недостатньо даних</h4>' +
         "<div class='description-block'>" +
-          "Параметри:<br/>" +
-          "<i>target=lat,lng<br/>" +
-          "position=lat,lng<br/>" +
-          "pilot=lat,lng</i><br/>" +
-        "</div>" +
+          'Параметри:<br/>' +
+          '<i>target=lat,lng<br/>' +
+          'position=lat,lng<br/>' +
+          'pilot=lat,lng</i><br/>' +
+        '</div>' +
         "<div class='description-block'>" +
-          "Приклад:<br/>" +
-          "<i>index.html?target=49.566115,25.576170&position=49.551971,25.593743&pilot=49.554738,25.607933</i>" +
-        "</div>";
+          'Приклад:<br/>' +
+          '<i>index.html?target=49.566115,25.576170&position=49.551971,25.593743&pilot=49.554738,25.607933</i>' +
+        '</div>';
 
       div.insertAdjacentHTML('beforeend', text);
       return div;
@@ -151,8 +154,8 @@
     map.setView([49.264822, 32.787117], 7);
   };
 
-  function renderMap(params) {
-    const points = params.points
+  function renderMap (params) {
+    const points = params.points;
     const map = initMap();
     const featureGroups = prepareFeatureGroups(points);
 
@@ -164,9 +167,9 @@
     }
   };
 
-  window.onload = function(event) {
-    const params = getParams()
-    console.log(params)
-    renderMap(params)
+  window.onload = function (event) {
+    const params = getParams();
+    console.log(params);
+    renderMap(params);
   };
 })();

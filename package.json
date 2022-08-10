@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "lint:fix": "eslint --cache webapp/index.js --fix",
-    "lint": "eslint --cache webapp/index.js"
+    "lint:fix": "eslint --cache *.js --fix",
+    "lint": "eslint --cache *.js"
   },
   "dependencies": {
     "crypto-js": "^4.1.1",
