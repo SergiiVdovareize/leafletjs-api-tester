@@ -8,6 +8,7 @@
   "dependencies": {
     "crypto-js": "^4.1.1",
     "eslint": "^8.0.1",
+    "eslint-plugin-es5": "^1.5.0",
     "phantomjs": "^2.1.7"
   },
   "devDependencies": {

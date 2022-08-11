@@ -1,24 +1,24 @@
 /* global phantom */
 
-const page = require('webpage').create();
-const args = require('system').args.slice(1);
-const fs = require('fs');
-const md5 = require('crypto-js/md5');
+var page = require('webpage').create();
+var args = require('system').args.slice(1);
+var fs = require('fs');
+var md5 = require('crypto-js/md5');
 
-const baseUrl = 'file:///' + fs.workingDirectory + '/webapp/index.html';
-const baseMapFolder = 'maps';
-const nonUrlParams = ['size'];
+var baseUrl = 'file:///' + fs.workingDirectory + '/webapp/index.html';
+var baseMapFolder = 'maps';
+var nonUrlParams = ['size'];
 
 page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36';
 
 function parseParams () {
-  const paramsArray = args.filter(function (arg) {
+  var paramsArray = args.filter(function (arg) {
     return arg.indexOf('=') !== -1;
   });
 
-  const parsedParams = {};
+  var parsedParams = {};
   paramsArray.forEach(function (paramString) {
-    const keyValue = paramString.split('=');
+    var keyValue = paramString.split('=');
     parsedParams[keyValue[0]] = keyValue[1];
   });
 
@@ -26,7 +26,7 @@ function parseParams () {
 }
 
 function composeUrlParams (params) {
-  const stringParams = Object.keys(params)
+  var stringParams = Object.keys(params)
     .filter(function (param) {
       return nonUrlParams.indexOf(param) === -1;
     }).map(function (param) {
@@ -37,7 +37,7 @@ function composeUrlParams (params) {
 }
 
 function encodeParams (params) {
-  const sortedKeys = Object.keys(params).sort(function (p1, p2) {
+  var sortedKeys = Object.keys(params).sort(function (p1, p2) {
     if (p1 < p2) {
       return -1;
     }
@@ -60,7 +60,7 @@ function setViewportSize (parsedSize) {
   var height = 1000;
 
   if (parsedSize) {
-    const size = parsedSize.split(/,|x/);
+    var size = parsedSize.split(/,|x/);
     if (!isNaN(size[0]) && !isNaN(size[1])) {
       width = size[0];
       height = size[1];
@@ -74,11 +74,12 @@ function setViewportSize (parsedSize) {
 }
 
 function render (url, paramsHash) {
-  const imageTarget = baseMapFolder + '/' + paramsHash + '.png';
+  var imageTarget = baseMapFolder + '/' + paramsHash + '.png';
+  // eslint-disable-next-line n/no-deprecated-api
   if (fs.exists(imageTarget)) {
     console.log('map already exists: ', imageTarget);
     phantom.exit();
-    return
+    return;
   }
 
   page.open(url, function (status) {
@@ -95,10 +96,10 @@ function render (url, paramsHash) {
   });
 }
 
-const parsedParams = parseParams();
-const paramsHash = encodeParams(parsedParams);
-const urlParams = composeUrlParams(parsedParams);
-const url = urlParams.length > 0 ? baseUrl + '?' + urlParams : baseUrl;
+var parsedParams = parseParams();
+var paramsHash = encodeParams(parsedParams);
+var urlParams = composeUrlParams(parsedParams);
+var url = urlParams.length > 0 ? baseUrl + '?' + urlParams : baseUrl;
 setViewportSize(parsedParams.size);
 render(url, paramsHash);
 
