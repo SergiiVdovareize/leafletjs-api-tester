@@ -9,7 +9,7 @@
       return null;
     }
 
-    for (const key in stringParams) {
+    for (var key in stringParams) {
       const param = stringParams[key];
       if (param.indexOf(paramName + '=') === 0) {
         const value = param.split('=')[1];
