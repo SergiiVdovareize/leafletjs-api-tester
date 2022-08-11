@@ -43,7 +43,9 @@
   };
 
   function initMap () {
-    var config = {};
+    var config = {
+      zoomControl: false
+    };
 
     var map = L.map('map', config);
 
