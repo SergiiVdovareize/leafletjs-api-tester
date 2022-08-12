@@ -6,11 +6,11 @@
     "lint": "eslint --cache *.js"
   },
   "dependencies": {
-    "crypto-js": "^4.1.1",
-    "phantomjs": "^2.1.7"
+    "eslint": "^8.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.0.1",
+    "crypto-js": "^4.1.1",
+    "phantomjs": "^2.1.7",
     "eslint-plugin-es5": "^1.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.25.2",
