@@ -11,17 +11,17 @@ on:
 
 jobs:
   build:
-    name: Code style
+    name: Code style checking
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      - name: prepare node
+      - name: Prepare node
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
           cache: 'npm'
-      - name: install eslint
+      - name: Install eslint
         run: npm install eslint
-      - name: check code style
+      - name: Check code style
         run: npm run lint
