@@ -15,13 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: prepare node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18.x
-        cache: 'npm'
-    - name: install eslint
-    - run: npm install eslint
-    - name: check code style
-    - run: npm run lint
+      - uses: actions/checkout@v3
+      - name: prepare node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      - name: install eslint
+        run: npm install eslint
+      - name: check code style
+        run: npm run lint
