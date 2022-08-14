@@ -56,7 +56,7 @@ function encodeParams (params) {
 }
 
 function setViewportSize (parsedSize) {
-  let width = 1000;
+  var width = 1000;
   var height = 1000;
 
   if (parsedSize) {
@@ -68,7 +68,7 @@ function setViewportSize (parsedSize) {
   }
 
   page.viewportSize = {
-    width,
+    width: width,
     height: height
   };
 }
