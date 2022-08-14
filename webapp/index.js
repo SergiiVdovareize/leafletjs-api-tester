@@ -2,7 +2,22 @@
 
 (function () {
   var PADDING = 50;
-  var defaultZoom = 15;
+  var NO_DATA_BLOCK =  '<h4>Недостатньо даних</h4>' +
+    '<div class="description-block">' +
+      'Параметри:<br/>' +
+      '<i>target=lat,lng<br/>' +
+      'position=lat,lng<br/>' +
+      'pilot=lat,lng</i><br/>' +
+    '</div>' +
+    "<div class='description-block'>" +
+      'Приклад:<br/>' +
+      '<i>index.html?target=49.566115,25.576170&position=49.551971,25.593743&pilot=49.554738,25.607933</i>' +
+    '</div>';
+
+  SVG_TEMPLATE = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="marker">' +
+      '<path fill-opacity=".25" d="M16 32s1.427-9.585 3.761-12.025c4.595-4.805 8.685-.99 8.685-.99s4.044 3.964-.526 8.743C25.514 30.245 16 32 16 32z"/>' +
+      '<path stroke="#fff" fill="__color__" d="M15.938 32S6 17.938 6 11.938C6 .125 15.938 0 15.938 0S26 .125 26 11.875C26 18.062 15.938 32 15.938 32zM16 6a4 4 0 100 8 4 4 0 000-8z"/>' +
+    '</svg>';
 
   function parseParam (stringParams, paramName, isCoordinate) {
     if (!stringParams) {
@@ -62,18 +77,15 @@
       target: 'red',
       position: 'green',
       pilot: 'blue',
-      default: '#2E85CB'
+      default: '#2E85CB',
     };
 
     var color = objectColor[object] || objectColor.default;
-    var svgTemplate = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="marker">' +
-      '<path fill-opacity=".25" d="M16 32s1.427-9.585 3.761-12.025c4.595-4.805 8.685-.99 8.685-.99s4.044 3.964-.526 8.743C25.514 30.245 16 32 16 32z"/>' +
-      '<path stroke="#fff" fill="' + color + '" d="M15.938 32S6 17.938 6 11.938C6 .125 15.938 0 15.938 0S26 .125 26 11.875C26 18.062 15.938 32 15.938 32zM16 6a4 4 0 100 8 4 4 0 000-8z"/>' +
-    '</svg>';
+    var svg = SVG_TEMPLATE.replace('__color__', color)
 
     var icon = L.divIcon({
       className: 'marker',
-      html: svgTemplate,
+      html: svg,
       iconSize: [40, 40],
       iconAnchor: [12, 24],
       popupAnchor: [7, -16]
@@ -121,16 +133,19 @@
     });
   };
 
-  function fitBounds (map, featureGroups, parsedZoom) {
+  function fitBounds (map, featureGroups) {
     // eslint-disable-next-line new-cap
     var group = new L.featureGroup(featureGroups);
     map.fitBounds(group.getBounds(), {
       padding: [PADDING, PADDING]
     });
-
-    var zoom = (!isNaN(parsedZoom) && parsedZoom > 0) ? parsedZoom : defaultZoom;
-    map.setZoom(zoom);
   };
+
+  function setZoom(map, zoom) {
+    if (!!zoom && !isNaN(zoom)) {
+      map.setZoom(zoom);
+    }
+  }
 
   function renderNoDataMap (map) {
     var legend = L.control({ position: 'bottomleft' });
@@ -138,19 +153,7 @@
     legend.onAdd = function () {
       var div = L.DomUtil.create('div', 'no-data-description');
       L.DomEvent.disableClickPropagation(div);
-      var text = '<h4>Недостатньо даних</h4>' +
-        "<div class='description-block'>" +
-          'Параметри:<br/>' +
-          '<i>target=lat,lng<br/>' +
-          'position=lat,lng<br/>' +
-          'pilot=lat,lng</i><br/>' +
-        '</div>' +
-        "<div class='description-block'>" +
-          'Приклад:<br/>' +
-          '<i>index.html?target=49.566115,25.576170&position=49.551971,25.593743&pilot=49.554738,25.607933</i>' +
-        '</div>';
-
-      div.insertAdjacentHTML('beforeend', text);
+      div.insertAdjacentHTML('beforeend', NO_DATA_BLOCK);
       return div;
     };
 
@@ -167,7 +170,8 @@
 
     if (featureGroups.length > 0) {
       addFeatureGroupsToMap(map, featureGroups);
-      fitBounds(map, featureGroups, params.zoom);
+      fitBounds(map, featureGroups);
+      setZoom(map, params.zoom)
     } else {
       renderNoDataMap(map);
     }
