@@ -69,7 +69,7 @@ function setViewportSize (parsedSize) {
 
   page.viewportSize = {
     width: width,
-    height: height
+    height: height,
   };
 }
 
