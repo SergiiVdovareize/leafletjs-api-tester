@@ -2,11 +2,14 @@
   "name": "map-renderer",
   "license": "MIT",
   "scripts": {
+    "cleanup": "del-cli --force ./maps/*",
     "lint:fix": "eslint --cache *.js --fix",
-    "lint": "eslint --cache *.js"
+    "lint": "eslint --cache *.js",
+    "map": "phantomjs render.js"
   },
   "devDependencies": {
     "crypto-js": "^4.1.1",
+    "del-cli": "^5.0.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-es5": "^1.5.0",
     "eslint-plugin-import": "^2.25.2",
