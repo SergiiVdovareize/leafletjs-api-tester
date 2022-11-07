@@ -657,10 +657,10 @@ eslint-plugin-import@^2.25.2:
     resolve "^1.22.0"
     tsconfig-paths "^3.14.1"
 
-eslint-plugin-n@^15.2.5:
-  version "15.2.5"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-n/-/eslint-plugin-n-15.2.5.tgz#aa7ff8d45bb8bf2df8ea3b7d3774ae570cb794b8"
-  integrity sha512-8+BYsqiyZfpu6NXmdLOXVUfk8IocpCjpd8nMRRH0A9ulrcemhb2VI9RSJMEy5udx++A/YcVPD11zT8hpFq368g==
+eslint-plugin-n@^15.5.0:
+  version "15.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-n/-/eslint-plugin-n-15.5.0.tgz#8eb0773b019b88b145dd1eba687ccc9c50e71655"
+  integrity sha512-VCqQiZDpdm1Q9grnvy+XsENZoXDgTLqPHRQwgl9qFNNgTKR4YEnQOMN0pFB/9TbmrQ88jdeTnqTcNwRvjqMOtg==
   dependencies:
     builtins "^5.0.1"
     eslint-plugin-es "^4.1.0"
